@@ -1,0 +1,38 @@
+pipeline {
+    agent { label 'RRR' }
+    triggers {pollSCM('* * * * *')}
+    stages {
+        stage('vcs'){
+            steps {
+                git url: 'https://github.com/hemachaitanya/spring-petclinic.git',
+                    branch: 'main'
+            }
+        }
+        stage("build & SonarQube analysis") {
+            steps {
+              withSonarQubeEnv('RRR') {
+                sh 'mvn clean package sonar:sonar'
+              }
+            }
+    }
+        stage('package'){
+            steps {
+                sh 'mvn package'
+            }
+            
+        }
+        stage('archive') {
+            steps{
+                archiveArtifacts artifacts: '**/target/*.jar',
+                                 onlyIfSuccessful: true
+
+        }
+    }
+        stage ('testresult'){
+            steps{
+                junit testResults: '**/surefire-reports/TEST-*.xml'
+            }
+             
+        }
+}
+}
