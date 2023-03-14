@@ -1,0 +1,17 @@
+pipeline {
+    agent{lable 'RRR'}
+    stages{
+        stage('vcs'){
+            steps{
+                git url: '',
+                    branch:
+            }
+        }
+        stage('package build'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        
+    }
+}
