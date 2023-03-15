@@ -1,0 +1,40 @@
+pipeline {
+    agent { label 'agent' }
+    tools{
+        maven 'maven'
+    }
+    triggers {
+        pollSCM('* * * * *')
+    }
+    parameters { choice(name: 'maven_goals', choices: ['validate', 'package', 'install'], description: '') }
+    stages {
+        stage('git_clone') {
+            steps{
+                git url: 'https://github.com/spring-projects/spring-petclinic.git',
+                    branch: 'main'
+            }
+        }
+        stage('sonarqube'){
+             steps {
+              withSonarQubeEnv('sonarqube') {
+                sh 'mvn clean package sonar:sonar'
+              }
+        }
+    }
+        stage('build') {
+             steps{
+                 sh "mvn ${params.maven_goals}"
+        }
+    }
+        stage('copy') {
+            steps{
+                sh 'cp /home/satya/workspace/petclinic/target/*.jar /home/satya/'
+            }
+        }
+    stage('ansible') {
+        steps{
+            sh 'ansible-playbook -i /home/satya/hosts /home/satya/spc.yml'
+        }
+    }
+}
+}
