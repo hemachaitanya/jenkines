@@ -1,0 +1,11 @@
+pipeline{
+    agent{lable 'RRR'}
+    stages{
+        stage('vcs'){
+            steps{
+                git url :
+            }
+        }
+    }
+    
+}
