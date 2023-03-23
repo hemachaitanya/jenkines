@@ -18,5 +18,12 @@ pipeline {
                 sh 'sudo cp openmrs-core/webapp/target/*.war  /opt/tomcat/latest/webapps/'
             }
         }
+        stage('stop tomcat'){
+            steps{
+                sh 'sudo systemctl stop tomcat',
+                sh 'sudo systemctl start tomcat',
+                sh 'sudo systemctl status tomcat'
+            }
+        }
     }
 }
