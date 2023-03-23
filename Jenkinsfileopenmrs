@@ -1,6 +1,12 @@
 pipeline {
     agent { lable('RRR')}
     stages{
+        stage('install mvn'){
+            steps{
+                sh 'sudo apt update',
+                sh 'sudo apt install openjdk-8-jdk maven -y'
+            }
+        }
         stage('vcs'){
             steps{
                 git url : 'https://github.com/hemachaitanya/openmrs-core.git',
@@ -15,14 +21,14 @@ pipeline {
         }
         stage('copy'){
             steps{
-                sh 'sudo cp openmrs-core/webapp/target/*.war  /opt/tomcat/latest/webapps/'
+                sh 'sudo cp ~/root/workspace/openmrs/webapp/target/*.war /opt/tomcat/latest/webapps/'
             }
         }
         stage('stop tomcat'){
             steps{
-                sh 'sudo systemctl start tomcat',
-                sh 'sudo systemctl stop tomcat',
-                sh 'sudo systemctl restart tomcat',
+                sh 'sudo systemctl start tomcat'
+                sh 'sudo systemctl stop tomcat'
+                sh 'sudo systemctl restart tomcat'
                 sh 'sudo systemctl status tomcat'
             }
         }
