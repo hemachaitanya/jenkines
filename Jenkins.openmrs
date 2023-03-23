@@ -1,0 +1,8 @@
+pipeline {
+    agent { lable('RRR')}
+    stages{
+        stage('vcs'){
+            
+        }
+    }
+}
