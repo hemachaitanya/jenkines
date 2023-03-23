@@ -20,8 +20,9 @@ pipeline {
         }
         stage('stop tomcat'){
             steps{
-                sh 'sudo systemctl stop tomcat',
                 sh 'sudo systemctl start tomcat',
+                sh 'sudo systemctl stop tomcat',
+                sh 'sudo systemctl restart tomcat',
                 sh 'sudo systemctl status tomcat'
             }
         }
