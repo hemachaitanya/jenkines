@@ -1,0 +1,42 @@
+pipeline{
+    agent {label ('RRR')}
+    stages{
+        stage('vcs'){
+            steps{
+                git url: 'https://github.com/spring-projects/spring-petclinic.git',
+                    branch: 'main'
+            }
+        }
+        stage('sonar'){
+            steps{
+                withSonarQubeEnv('sonar-qube') {
+                sh 'mvn clean package sonar:sonar -Dsonar.projectKey=hemachaitanya -Dsonar.token=bf88c07d21dfcb0edb3d119b153c5eebb9abd5ef -Dsonar.organization=hemachaitanya'
+              }
+            }
+        }
+    }
+}
+
+
+## sonar qube
+
+pipeline{
+    agent { label 'EEE'}
+    stages {
+        stage ('vcs'){
+            steps{
+                git url: 'https://github.com/spring-projects/spring-petclinic.git',
+                branch: 'main'
+
+            }        
+        }
+        stage('static-code-smell'){
+
+            steps{
+                withSonarQubeEnv('SONAR_QUBE'){
+                    sh 'mvn clean package sonar:sonar -Dsonar.projectKey=babool -Dsonar.organization=babool -Dsonar.token=c9d102d6ab96fd05b033a7a908f6a443fc30a2d6'
+                }
+            }
+        }
+    }   
+}
