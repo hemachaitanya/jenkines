@@ -1,0 +1,20 @@
+pipeline {
+    agent { label ('RRR')}
+}
+stages {
+    stage ('git clone') {
+        steps {
+            git url : "https://github.com/hemachaitanya/spring-petclinic.git"
+            branch: main
+                
+            }
+        }
+        stage ('build maven'){
+            steps{
+             
+                sh 'cd spring-petclinic && mvn clean package'
+                }
+            
+        }
+}      
+
