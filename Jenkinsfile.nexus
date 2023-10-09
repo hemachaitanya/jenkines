@@ -1,0 +1,18 @@
+pipeline {
+    agent{ label 'RRR'}
+        stages {
+            stage('vcs'){
+                steps{
+                    git url: 'https://github.com/spring-projects/spring-petclinic.git',
+                    branch: 'main'
+                } 
+            }
+            stage('nexus'){
+                steps{
+                    nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic', classifier: '', file: '/home/ubuntu/workspace/nexus-pipe/target/spring-petclinic-3.1.0-SNAPSHOT.jar', type: 'jar']], credentialsId: '', groupId: 'org.springframework.samples', nexusUrl: '54.186.22.19:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '3.1.0-SNAPSHOT'
+
+                }
+            }   
+            
+        }
+    }
