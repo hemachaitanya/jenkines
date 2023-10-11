@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+    stages{
+        stage('vcs'){
+            steps{
+                git url: 'https://github.com/qtdevopsjoip13/pitstop.git',
+                    branch: 'main'
+            }
+        }
+        stage('build'){
+            steps {
+                sh 'sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0 -y'
+                sh 'dotnet publish src/pitstop.sln -c Release -o out'
+                sh 'dotnet Pitstop.WebApp.dll --urls http://0.0.0.0:7005'
+            }
+        }
+        stage('s3-backup'){
+            steps {
+                script {
+                    withAWS(region:'ap-south-1', credentials:'95a0bbca-e92f-4b95-83dd-0c0e04e71f4a') {
+                        s3Upload(file:'/var/lib/jenkins/*', bucket:'baboolthajmahal', path:'artifacts/')
+
+        }
+                    }
+                }
+    }
+}

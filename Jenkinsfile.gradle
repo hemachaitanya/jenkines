@@ -1,0 +1,23 @@
+pipeline{
+    agent any
+    tools{
+        jdk 'JAVA-8'
+        gradle 'GRADLE'
+    }
+    stages {
+        stage('ggggggggg'){
+            steps{
+                git url: 'https://github.com/echebbi/game-of-life',
+                    branch: 'master'
+            }
+        }
+        stage('hh'){
+            steps{
+                sh 'sudo chmod +x gradlew'
+                sh './gradlew build'
+                sh 'pwd'
+                sh 'java -jar /var/lib/jenkins/workspace/job-2/build/libs/game-of-life.jar'
+            }
+        }
+    }
+}
