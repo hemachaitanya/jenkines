@@ -44,7 +44,7 @@ unit test: where code is return to test code (testing smaller unit of testing)
 
 ### pipeline - concept
 
-![hmea](./Images/pipeline.png)
+![hema](C:\Users\DELL\jenkines\Images\pipeline.png)
 
 #### sonarqube practice
 

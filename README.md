@@ -59,3 +59,9 @@ pipeline{
 * sudo systemctl start jenkins.service
 
 * check to ip already builds will be successed and jobs also existed in /var/lib/jenkins
+
+### import job pluggin
+
+* create 2 ec2's and install jenkins
+
+*  
