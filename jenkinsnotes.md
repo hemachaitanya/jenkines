@@ -44,7 +44,7 @@ unit test: where code is return to test code (testing smaller unit of testing)
 
 ### pipeline - concept
 
-![hema](.\images\pipeline.png)
+![hema](.\Images\pipeline.png)
 
 #### sonarqube practice
 
@@ -53,12 +53,19 @@ unit test: where code is return to test code (testing smaller unit of testing)
 *  and create organizaton and project as shown below
 
 ![hema](./Images/1.png)
+
 ![heam](./Images/2.png)
+
 ![hema](./Images/3.png)
+
 ![hema](./Images/4.png)
+
 ![hema](./Images/5.png)
+
 ![hema](./Images/6.png)
+
 ![hema](./Images/7.png)
+
 ![hema](./Images/8.png)
 
 * create token in sonarqube 
