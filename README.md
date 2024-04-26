@@ -64,4 +64,24 @@ pipeline{
 
 * create 2 ec2's and install jenkins
 
+### tools
+ we automatic install java by using eclipse plugin
+ maven
+ git 
+### input
+
+* input parameter is used to permit the stage will be exicuted or stoped
+## when 
+
+* to skip the stage, with out execution  we used when conditions
+  ## general
+
+  * discard old builds:
+ 
+      * you want to givehow many builds u want to run latest
+* This project is parameterized:
+       u want to give the parameters eaither string , list or choice parameters
+  
+
+
 *  
