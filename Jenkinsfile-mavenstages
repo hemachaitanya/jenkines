@@ -1,0 +1,60 @@
+pipeline {
+    agent {label "Docker"}
+    stages {
+        stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+        stage('checkout SCM'){
+            steps{
+                git url: 'https://github.com/batchusivaji/spring-petclinic.git' ,
+                    branch: 'main'
+            }
+        }
+        stage('Build the mvn project by deleting target directory'){
+            steps {
+                sh 'mvn clean'
+            }
+        }
+        stage("compile the test classes"){
+            steps{
+                sh 'mvn compile'
+            }
+        }
+        stage('validate is correct and all the necessary information is available'){
+            steps{
+                sh 'mvn validate'
+            }
+        }
+        
+        stage('install the package files like JAR,WAR'){
+            steps{
+                sh 'mvn install'
+            }
+        }
+        stage('dependecy tree of the mvn project'){
+            steps{
+                sh 'mvn dependecy:tree'
+            }
+        }
+        stage('test the source code'){
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('verify the integration tests and ensure quality creteria'){
+            steps {
+                sh 'mvn verify'
+            }
+        }
+        stage('build the meven project crating JAR,WAR '){
+            steps {
+                sh 'mvn package'
+            }
+        }
+        
+    }
+}
+    
+    
