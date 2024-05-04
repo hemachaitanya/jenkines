@@ -115,6 +115,92 @@ pipeline{
 ##### install nexus 
 
 
+### two stages with same - name
+
+* Duplicate stage name: "Build" @ line 8, column 13.
+               parallel {
+  this type of error will be occures
+### incase build will be failed then also next stage will be run
+
+```
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    try {
+                        // Your build steps here
+                        echo 'Building (Stage 1)...'
+                        sh 'exit 1' // Simulate a build failure
+                    } catch (Exception e) {
+                        echo "Build failed: ${e.getMessage()}"
+                        // Handle the failure, or just continue
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    try {
+                        // Your build steps here
+                        echo 'Building (Stage 2)...'
+                    } catch (Exception e) {
+                        echo "Build failed: ${e.getMessage()}"
+                        // Handle the failure, or just continue
+                    }
+                }
+            }
+        }
+        stage('Next Stage') {
+            steps {
+                echo 'Running next stage...'
+            }
+        }
+    }
+}
+```
+* we used try cache method
+
+## incase we want to run stage with our permissions 
+
+```
+pipeline {
+    agent any
+    parameters {
+        choice(
+            choices: ['yes', 'no'],
+            description: 'Do you want to run the stage with elevated permissions?',
+            name: 'runWithPermissions'
+        )
+    }
+    stages {
+        stage('User Input') {
+            steps {
+                script {
+                    userInput = input message: 'Proceed to run stage with elevated permissions?', parameters: [choice(name: 'runWithPermissions', choices: ['yes', 'no'])]
+                }
+            }
+        }
+        stage('Run with Permissions') {
+            when {
+                expression { return userInput == 'yes' }
+            }
+            steps {
+                script {
+                    // Use sudo to run commands with escalated permissions
+                    sh 'sudo command_with_elevated_permissions'
+                }
+            }
+        }
+    }
+}
+
+```
+* using input parameters
+
+
 
 
 
