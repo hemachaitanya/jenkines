@@ -83,5 +83,52 @@ pipeline{
        u want to give the parameters eaither string , list or choice parameters
   
 
+```Jenkinsfile
+pipeline {
+    agent any
+    
+    parameters {
+        string(name: 'MASTER_BRANCH', defaultValue: 'master', description: 'Name of the master branch')
+        string(name: 'RELEASE_BRANCH', defaultValue: 'release', description: 'Name of the release branch')
+        string(name: 'FEATURE_BRANCH', defaultValue: 'feature', description: 'Name of the feature branch prefix')
+    }
+    
+    stages {
+        stage('Checkout Master') {
+            steps {
+                script {
+                    checkout scm
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.MASTER_BRANCH}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'your_git_repository_url']]])
+                }
+            }
+        }
+        stage('Checkout Release') {
+            steps {
+                script {
+                    checkout scm
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.RELEASE_BRANCH}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'your_git_repository_url']]])
+                }
+            }
+        }
+        stage('Checkout Feature Branches') {
+            steps {
+                script {
+                    // Get list of branches with the feature prefix
+                    def featureBranches = sh(script: 'git ls-remote --heads your_git_repository_url | grep refs/heads/${params.FEATURE_BRANCH} | cut -d "/" -f 3', returnStdout: true).trim().split('\n')
+                    // Checkout each feature branch
+                    featureBranches.each { branch ->
+                        checkout scm
+                        checkout([$class: 'GitSCM', branches: [[name: "*/$branch"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'your_git_repository_url']]])
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        // Define post-build actions if needed
+    }
+}
 
-*  
+
+```  
