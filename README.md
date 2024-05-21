@@ -131,4 +131,59 @@ pipeline {
 }
 
 
-```  
+```
+
+
+```Jenkinsfile
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/hemachaitanya/azuredevops.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'mvn clean install' // Or any build command specific to your project
+            }
+        }
+        
+        stage('Code Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh 'mvn sonar:sonar' // Run SonarQube analysis
+                }
+            }
+        }
+        
+        stage('Deploy to Nexus') {
+            steps {
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: 'NEXUS_URL',
+                    groupId: 'YOUR_GROUP_ID',
+                    version: '1.0-SNAPSHOT',
+                    repository: 'YOUR_REPOSITORY_NAME',
+                    credentialsId: 'YOUR_NEXUS_CREDENTIALS_ID',
+                    artifacts: [
+                        [artifactId: 'your-artifact-id', file: 'path/to/your/artifact']
+                    ]
+                )
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+```
