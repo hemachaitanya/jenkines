@@ -1,3 +1,7 @@
+#### jenkins errrors 
+
+[jenkins 50 errors](https://www.prodevopsguy.site/jenkins-errors-with-solutions)
+
 pipeline{
     agent{label'RRR'}
      triggers { 
