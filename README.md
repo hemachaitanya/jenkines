@@ -2,6 +2,8 @@
 
 [jenkins 50 errors](https://www.prodevopsguy.site/jenkins-errors-with-solutions)
 
+```Jenkinsfile
+
 pipeline{
     agent{label'RRR'}
      triggers { 
@@ -30,7 +32,7 @@ pipeline{
 }
 
 
-
+```
 
 #### back ups
  
@@ -75,9 +77,11 @@ pipeline{
 ### input
 
 * input parameter is used to permit the stage will be exicuted or stoped
+  
 ## when 
 
 * to skip the stage, with out execution  we used when conditions
+  
   ## general
 
   * discard old builds:
