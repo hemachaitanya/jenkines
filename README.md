@@ -195,3 +195,4 @@ pipeline {
     }
 }
 ```
+[Complete ECR,RDS project ](https://dev.to/prodevopsguytech/end-to-end-aws-devops-project-cicd-pipeline-for-ecs-fargate-with-ecr-and-rds-2b07)
